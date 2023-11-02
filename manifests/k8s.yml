@@ -1,0 +1,35 @@
+#manifest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sales-deployment
+spec:
+  selector:
+    matchLabels:
+      app: sales-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sales-server
+    spec:
+      containers:
+      - name: sales-container
+        #image: gcr.io/tensorflow-serving/resnet 
+        image: docker.io/wendy24/sales:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: sales-service
+  name: sales-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: sales-server
+  type: LoadBalancer
