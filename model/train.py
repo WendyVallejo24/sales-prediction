@@ -14,6 +14,10 @@ X = df.drop(columns_to_drop, axis=1)
 print (X.head())
 imp = SimpleImputer(missing_values=np.nan, strategy='mean')
 X=imp.fit_transform(X)
+
+imp_y = SimpleImputer(missing_values=np.nan, strategy='mean')
+y = imp_y.fit_transform(y.values.reshape(-1, 1))
+
 X_train, X_test, y_train, y_test = train_test_split(X,y, random_state=44, shuffle =True)
 
 print ('Training model.. ')
